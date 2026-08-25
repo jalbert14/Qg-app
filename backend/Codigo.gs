@@ -42,10 +42,12 @@ function configurar(){
   asegurarColumnas(['Datos del representante'], 'Prospectos');
   var u = hoja('Usuarios');
   if(u.getLastRow() < 2){
-    u.appendRow(['ADM-' + claveAzar(), 'Administrador', 'admin', 'SI', '']);
-    u.appendRow(['REG-' + claveAzar(), 'Registrador 1', 'registrador', 'SI', '']);
-    u.appendRow(['CON-' + claveAzar(), 'Consulta 1', 'consulta', 'SI', '']);
+    u.appendRow(['PRUEBA', 'Usuario Prueba', 'admin', 'SI', '', 'prueba', '']);
+    u.appendRow(['ADM-' + claveAzar(), 'Administrador', 'admin', 'SI', '', 'admin', '']);
+    u.appendRow(['REG-' + claveAzar(), 'Registrador 1', 'registrador', 'SI', '', 'registrador', '']);
+    u.appendRow(['CON-' + claveAzar(), 'Consulta 1', 'consulta', 'SI', '', 'consulta', '']);
   }
+  asegurarUsuarioPrueba();
   migrarUsuarios();
   instalarLimpieza();
   SpreadsheetApp.getUi().alert(
@@ -456,6 +458,17 @@ function asegurarUsuariosLogin(){
   });
 }
 
+function asegurarUsuarioPrueba(){
+  try {
+    var h = hoja('Usuarios');
+    var filas = filasHoja('Usuarios');
+    var existe = filas.some(function(x){ return String(x.usuario || '').toLowerCase() === 'prueba'; });
+    if(!existe){
+      h.appendRow(['PRUEBA', 'Usuario Prueba', 'admin', 'SI', '', 'prueba', '']);
+    }
+  } catch(e) {}
+}
+
 function autenticar(usuarioLogin, clave){
   if(!usuarioLogin || !clave) return null;
   var nu = String(usuarioLogin).trim().toLowerCase();
@@ -478,7 +491,7 @@ function doPost(e){
   var lock = LockService.getScriptLock();
   try{
     var p = JSON.parse(e.postData.contents);
-    try{ asegurarUsuariosLogin(); }catch(x){}   // por si la columna "usuario" todavía no existe
+    try{ asegurarUsuariosLogin(); asegurarUsuarioPrueba(); }catch(x){}   // por si la columna "usuario" todavía no existe
     if(p.accion === 'recuperar_solicitar' || p.accion === 'recuperar_validar_2fa' || p.accion === 'recuperar_cambiar_clave'){
       var rRec = ACCIONES[p.accion](p);
       rRec.ok = rRec.ok !== false;
