@@ -12,6 +12,8 @@
   aliasColegios = await Store.get('asis_alias_colegios', []);
   activa   = await Store.get('asis_activa', null);
   conn     = await Store.get('asis_conn', conn);
+  conn.url = URL_PREDETERMINADA;
+  await guardarConn();
   outbox   = await Store.get('asis_outbox', []);
 
   if(!activa || activa.fecha !== hoyISO()){

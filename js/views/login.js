@@ -2,7 +2,7 @@
    CONTROLADOR DE LOGIN Y AUTENTICACIÓN
    ========================================================= */
 function mostrarLogin(){
-  if(!conn.url) conn.url = URL_PREDETERMINADA;
+  conn.url = URL_PREDETERMINADA;
   $('#lgUsuario').value = conn.usuarioLogin || '';
   $('#lgClave').value = '';
   $('#lgMsg').className = 'lg-msg';
@@ -18,7 +18,7 @@ function avisoLogin(txt){
 async function entrar(){
   const usuarioLogin = $('#lgUsuario').value.trim();
   const clave = $('#lgClave').value.trim().toUpperCase();
-  if(!conn.url) conn.url = URL_PREDETERMINADA;
+  conn.url = URL_PREDETERMINADA;
   if(!usuarioLogin){ avisoLogin('Escribe tu usuario.'); return; }
   if(!clave){ avisoLogin('Escribe tu clave de acceso.'); return; }
   avisoLogin('');
