@@ -35,9 +35,14 @@ async function entrar(){
     document.body.classList.remove('bloqueada');
     aplicarRol(); renderAll(); iniciarPoll();
     cargando(true, 'Sincronizando');
-    await sincronizar();
-    cargando(false);
-    toast('Bienvenido, ' + r.usuario.split(' ')[0]);
+    try {
+      await sincronizar();
+    } catch(e) {
+      console.error('Error durante sincronización:', e);
+    } finally {
+      cargando(false);
+    }
+    toast('Bienvenido, ' + (r.usuario ? r.usuario.split(' ')[0] : ''));
     return;
   }
 
