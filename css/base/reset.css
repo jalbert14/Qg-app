@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  padding-bottom: calc(76px + env(safe-area-inset-bottom));
+}
+h1, h2, h3, .display {
+  font-family: 'Archivo', 'Public Sans', system-ui, sans-serif;
+  letter-spacing: -.02em;
+  margin: 0;
+}
+.mono {
+  font-family: 'Space Mono', ui-monospace, 'Courier New', monospace;
+}
+.hidden {
+  display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

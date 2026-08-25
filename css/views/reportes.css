@@ -1,0 +1,75 @@
+.verdict {
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: var(--card);
+  margin-top: 14px;
+}
+.vd-bar {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+}
+.vd-bar .vd-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .22);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex: none;
+}
+.vd-bar b {
+  font-family: 'Archivo';
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.verdict.yes .vd-bar {
+  background: var(--jade);
+}
+.verdict.no .vd-bar {
+  background: var(--danger);
+}
+.vd-body {
+  padding: 16px;
+}
+.vd-name {
+  font-family: 'Archivo';
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.15;
+}
+.vd-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.vd-grid .field {
+  margin-top: 0;
+}
+.vd-hist {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: 11px 16px;
+  display: flex;
+  gap: 16px;
+}
+.vd-hist div {
+  font-size: 13px;
+  color: var(--slate);
+}
+.vd-hist b {
+  font-family: 'Space Mono';
+  color: var(--ink);
+  font-size: 13px;
+}

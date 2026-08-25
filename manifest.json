@@ -1,0 +1,17 @@
+{
+  "name": "Queremos Graduarnos — Control de Asistencia",
+  "short_name": "Asistencia QG",
+  "description": "Registro de asistencia y consulta de inscritos de Queremos Graduarnos.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EEF1F7",
+  "theme_color": "#002871",
+  "lang": "es",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

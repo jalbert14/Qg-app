@@ -1,0 +1,16 @@
+:root {
+  --brand: #002871;      /* azul del logo */
+  --brand-2: #0A3A8E;    /* azul un tono más claro */
+  --accent: #DF750D;     /* naranja del logo */
+  --ink: #12203C;
+  --slate: #5A6987;
+  --paper: #EEF1F7;
+  --card: #FFFFFF;
+  --jade: #0E7A56;
+  --jade-soft: #E3F2EC;
+  --amber: #B4700B;
+  --line: #DCE3EF;
+  --shadow: 0 1px 2px rgba(0,40,113,.06);
+  --danger: #9E2E2E;
+  --r: 14px;
+}

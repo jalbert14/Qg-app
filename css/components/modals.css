@@ -1,0 +1,118 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,23,38,.55);
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s;
+}
+.scrim.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 51;
+  background: var(--paper);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 0 calc(18px + env(safe-area-inset-bottom));
+  transform: translateY(102%);
+  transition: transform .24s cubic-bezier(.2,.8,.3,1);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+.sheet.on {
+  transform: translateY(0);
+}
+.grab {
+  width: 40px;
+  height: 4px;
+  border-radius: 3px;
+  background: #BFCBE0;
+  margin: 6px auto 14px;
+}
+.sheet h2 {
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.sheet .sub {
+  color: var(--slate);
+  font-size: 13.5px;
+  margin-bottom: 14px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 88px;
+  transform: translate(-50%, 12px);
+  z-index: 70;
+  background: var(--brand);
+  color: #fff;
+  padding: 11px 17px;
+  border-radius: 11px;
+  font-size: 14.5px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .2s;
+  max-width: 88vw;
+  text-align: center;
+}
+.toast.on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.warn {
+  background: #FFF4E0;
+  border: 1px solid #E9C88A;
+  color: #7A5209;
+  border-radius: 12px;
+  padding: 11px 13px;
+  font-size: 13.5px;
+  margin-bottom: 12px;
+}
+.warn.dup {
+  background: #FBE9E9;
+  border-color: #E0B3B3;
+  color: #7A2626;
+}
+.warn .dup-tit {
+  font-family: 'Archivo';
+  font-weight: 600;
+  font-size: 15.5px;
+  display: block;
+  margin-bottom: 7px;
+}
+.warn .dup-persona {
+  background: rgba(255, 255, 255, .75);
+  border-radius: 10px;
+  padding: 9px 11px;
+  margin: 8px 0;
+}
+.warn .dup-persona b {
+  display: block;
+  font-size: 14.5px;
+}
+.warn .dup-persona span {
+  font-size: 12.5px;
+  opacity: .85;
+}
+.warn .dup-btn {
+  border: 0;
+  background: var(--brand);
+  color: #fff;
+  font-family: 'Archivo';
+  font-weight: 600;
+  font-size: 13.5px;
+  border-radius: 9px;
+  padding: 8px 13px;
+  margin-top: 4px;
+  cursor: pointer;
+}

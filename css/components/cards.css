@@ -1,0 +1,242 @@
+.row {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-size: 16px;
+  color: inherit;
+  cursor: pointer;
+}
+.row:active {
+  background: #F4F7FB;
+}
+.row .r-main {
+  flex: 1;
+  min-width: 0;
+}
+.row .r-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row .r-meta {
+  font-size: 12.5px;
+  color: var(--slate);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+.row .r-meta .ci {
+  font-family: 'Space Mono';
+  font-size: 12px;
+}
+.row.done {
+  border-color: #BEE0D3;
+  background: #F4FBF8;
+}
+.row.esvip {
+  border-left: 3px solid var(--accent);
+}
+
+.tick {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--jade-soft);
+  color: var(--jade);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  flex: none;
+  font-weight: 700;
+}
+
+.empty {
+  text-align: center;
+  color: var(--slate);
+  padding: 26px 18px;
+  border: 1px dashed var(--line);
+  border-radius: var(--r);
+  font-size: 14.5px;
+}
+.empty b {
+  display: block;
+  font-family: 'Archivo';
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 15px;
+}
+.stat {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.stat div {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  border-radius: 12px;
+  padding: 11px 12px;
+}
+.stat b {
+  display: block;
+  font-family: 'Archivo';
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.1;
+}
+.stat span {
+  font-family: 'Space Mono';
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+/* Badges & Pills */
+.pill {
+  display: inline-block;
+  background: var(--jade-soft);
+  color: var(--jade);
+  font-family: 'Space Mono';
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.pill.grey {
+  background: #E6ECF7;
+  color: #48618F;
+}
+.pill.nuevo {
+  background: #FCEBD8;
+  color: #A85A05;
+  font-size: 9.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  padding: 2px 7px;
+}
+
+.star {
+  color: var(--accent);
+  margin-right: 1px;
+}
+
+/* Carnet digital */
+.carnet {
+  position: relative;
+  background: var(--card);
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.carnet .cn-top {
+  background: var(--brand);
+  color: #fff;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.carnet .cn-top span {
+  font-family: 'Space Mono';
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #A8C0E4;
+}
+.carnet .cn-body {
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: #E6ECF7;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  font-family: 'Archivo';
+  font-weight: 800;
+  font-size: 21px;
+  color: #4A6BA0;
+  flex: none;
+}
+.avatar.esvip {
+  background: #FDF0DA;
+  color: #9A6008;
+  border-color: #EAC98E;
+}
+.carnet .cn-name {
+  font-family: 'Archivo';
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.15;
+}
+.field {
+  margin-top: 11px;
+}
+.field label {
+  display: block;
+  font-family: 'Space Mono';
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #8894A8;
+}
+.field div {
+  font-size: 15.5px;
+  font-weight: 500;
+}
+.perf {
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px);
+}
+.stamp {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  border: 3px solid var(--jade);
+  color: var(--jade);
+  font-family: 'Archivo';
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .06em;
+  padding: 5px 12px;
+  border-radius: 6px;
+  transform: rotate(-11deg) scale(1.6);
+  opacity: 0;
+}
+.stamp.on {
+  animation: stamp .32s cubic-bezier(.2,1.4,.4,1) forwards;
+}
+@keyframes stamp {
+  to {
+    opacity: .92;
+    transform: rotate(-11deg) scale(1);
+  }
+}

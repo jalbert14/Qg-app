@@ -1,0 +1,85 @@
+.icon-btn {
+  background: rgba(255, 255, 255, .1);
+  border: 0;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 17px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.icon-btn:active {
+  background: rgba(255, 255, 255, .22);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 15px;
+  font-family: 'Archivo';
+  font-weight: 600;
+  font-size: 16px;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.btn:active {
+  opacity: .85;
+}
+.btn.jade {
+  background: var(--jade);
+}
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+}
+.btn.small {
+  padding: 11px;
+  font-size: 14.5px;
+}
+.btn[disabled] {
+  opacity: .4;
+  pointer-events: none;
+}
+.btn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.btn-grid .btn {
+  margin-top: 0;
+}
+
+.x-btn {
+  border: 0;
+  background: none;
+  color: #93A2BF;
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  cursor: pointer;
+}
+
+.star-btn {
+  border: 0;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  flex: none;
+  color: #D8DFEA;
+  padding: 4px;
+}
+.star-btn.on {
+  color: var(--accent);
+}

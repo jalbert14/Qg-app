@@ -1,0 +1,97 @@
+.searchbar {
+  position: relative;
+}
+.searchbar input {
+  width: 100%;
+  border: 2px solid var(--brand);
+  border-radius: 12px;
+  background: var(--card);
+  padding: 15px 44px 15px 15px;
+  font-size: 17px;
+  font-family: inherit;
+  color: var(--ink);
+  outline: none;
+}
+.searchbar input::placeholder {
+  color: #8D9DBB;
+}
+.searchbar input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(223, 117, 13, .20);
+}
+.searchbar .clr {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: none;
+  color: var(--slate);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.inp {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  padding: 13px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--ink);
+  outline: none;
+  margin-top: 5px;
+}
+.inp:focus {
+  border-color: var(--ink);
+}
+.inp.filtro {
+  margin-top: 0;
+  padding: 11px 10px;
+  font-size: 14px;
+}
+
+label.lbl {
+  font-family: 'Space Mono';
+  font-size: 10px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--slate);
+  display: block;
+  margin-top: 14px;
+}
+
+.filtros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.seg {
+  display: flex;
+  background: #DFE6F2;
+  border-radius: 11px;
+  padding: 3px;
+  gap: 3px;
+  margin-top: 6px;
+}
+.seg button {
+  flex: 1;
+  border: 0;
+  background: none;
+  padding: 9px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--slate);
+  cursor: pointer;
+}
+.seg button.on {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(14, 23, 38, .12);
+}

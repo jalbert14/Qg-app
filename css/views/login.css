@@ -1,0 +1,195 @@
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--paper);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.splash.on {
+  display: flex;
+}
+.splash .sp-logo {
+  width: 112px;
+}
+.splash .sp-logo svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  animation: latir 1.5s ease-in-out infinite;
+}
+.splash .sp-txt {
+  font-family: 'Space Mono';
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+@keyframes latir {
+  0%, 100% {
+    transform: scale(.9);
+    opacity: .5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.login {
+  position: fixed;
+  inset: 0;
+  z-index: 85;
+  background: var(--brand);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  overflow-y: auto;
+}
+body.bloqueada .login {
+  display: flex;
+}
+body.bloqueada .topbar,
+body.bloqueada .strip,
+body.bloqueada main,
+body.bloqueada .tabbar {
+  display: none;
+}
+.login .lg-logo {
+  width: 92px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 11px 12px;
+  margin-bottom: 16px;
+  flex: none;
+}
+.login .lg-logo svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.login .lg-tit {
+  font-family: 'Archivo';
+  font-weight: 800;
+  font-size: 21px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 3px;
+}
+.login .lg-sub {
+  font-size: 13.5px;
+  color: #A8C0E4;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.login .caja {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 18px;
+  width: 100%;
+  max-width: 390px;
+}
+.login .lg-url {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 9px 11px;
+  font-family: 'Space Mono';
+  font-size: 11px;
+  color: var(--slate);
+  word-break: break-all;
+  margin-top: 5px;
+}
+.login .lg-msg {
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  margin-top: 12px;
+  display: none;
+}
+.login .lg-msg.on {
+  display: block;
+  background: #FBE9E9;
+  border: 1px solid #E0B3B3;
+  color: #7A2626;
+}
+.login .lg-pie {
+  color: #A8C0E4;
+  font-size: 12.5px;
+  text-align: center;
+  margin-top: 16px;
+  max-width: 390px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #8FA6CC;
+  display: block;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .12);
+}
+.dot.live {
+  background: #3DDC97;
+}
+.dot.err {
+  background: #FFB35C;
+}
+
+.rolchip {
+  display: inline-block;
+  font-family: 'Space Mono';
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: #E6ECF7;
+  color: #48618F;
+  border-radius: 20px;
+  padding: 3px 9px;
+}
+.rolchip.live {
+  background: var(--jade-soft);
+  color: var(--jade);
+}
+.conn-estado {
+  font-size: 13.5px;
+  color: var(--slate);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* Control de vistas por rol */
+body[data-rol="consulta"] #btnAddPerson,
+body[data-rol="consulta"] #btnCerrar,
+body[data-rol="consulta"] #btnConsultaMarcar,
+body[data-rol="consulta"] #btnAltaAsist,
+body[data-rol="consulta"] #btnAltaRapida,
+body[data-rol="consulta"] #lsBuscarOut .btn,
+body[data-rol="consulta"] #lsPresentes .x-btn,
+body[data-rol="consulta"] #btnAddProspecto,
+body[data-rol="consulta"] #btnConfirmar {
+  display: none !important;
+}
+body:not([data-rol="admin"]) #prList .x-btn {
+  display: none !important;
+}
+body:not([data-rol="admin"]) #btnImport,
+body:not([data-rol="admin"]) #jxjSoloAdmin,
+body:not([data-rol="admin"]) #laboralSoloAdmin,
+body:not([data-rol="admin"]) #npJxJWrap,
+body:not([data-rol="admin"]) #npLsWrap,
+body:not([data-rol="admin"]) #btnPendientes,
+body:not([data-rol="admin"]) #btnExportBase,
+body:not([data-rol="admin"]) #btnDsDel,
+body:not([data-rol="admin"]) #btnDelPerson,
+body:not([data-rol="admin"]) #btnDelProspecto,
+body:not([data-rol="admin"]) #personasList .x-btn {
+  display: none !important;
+}
+body:not([data-rol="admin"]) #v-personas .btn-grid {
+  grid-template-columns: 1fr;
+}
