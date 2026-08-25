@@ -98,3 +98,38 @@ function renderPresentes(){
     renderStrip(); renderPresentes(); renderResults($('#q').value);
   }));
 }
+
+async function cerrarSesionAsistencia(){
+  if(!activa || !activa.presentes || !activa.presentes.length){
+    toast('La lista está vacía');
+    return;
+  }
+  
+  cargando(true, 'Generando PDF...');
+  try {
+    const sesCerrada = JSON.parse(JSON.stringify(activa));
+    sesiones.unshift(sesCerrada);
+    await Store.set('asis_sesiones', sesiones);
+    
+    const doc = generarPDF(sesCerrada);
+    const nombre = (sesCerrada.titulo ? norm(sesCerrada.titulo).replace(/ /g,'_') + '_' : '') + 'Asistencia_' + sesCerrada.fecha + '.pdf';
+    
+    if(doc){
+      const blob = doc.output('blob');
+      await compartirArchivo(blob, nombre, 'application/pdf', doc);
+      guardarEnNube(blob, nombre, 'application/pdf', 'Listas de Asistencia', sesCerrada.fecha);
+    }
+    
+    activa = { id: uid(), titulo:'', fecha: hoyISO(), presentes: [] };
+    revisionLocal++;
+    await Store.set('asis_activa', activa);
+    
+    renderAll();
+    toast('Sesión cerrada y PDF generado');
+  } catch(e) {
+    console.error('Error al cerrar sesión de asistencia:', e);
+    toast('Ocurrió un error al generar el PDF.');
+  } finally {
+    cargando(false);
+  }
+}

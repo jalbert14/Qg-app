@@ -79,6 +79,7 @@ $('#q')?.addEventListener('input', e => {
   renderResults(e.target.value);
 });
 $('#qClear')?.addEventListener('click', () => { $('#q').value=''; $('#qClear')?.classList.add('hidden'); renderResults(''); $('#q')?.focus(); });
+$('#btnCerrar')?.addEventListener('click', cerrarSesionAsistencia);
 
 /* Modal Carnet */
 $('#btnCancelar')?.addEventListener('click', closeSheet);
