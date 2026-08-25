@@ -111,11 +111,17 @@ function abrirCerrarSesion(){
 
 async function procesarCerrarSesion(tipoEnvio){
   const titulo = $('#inTitulo')?.value.trim() || '';
+  const correoDestino = $('#inCorreo')?.value.trim() || '';
   activa.titulo = titulo;
   const formatoBtn = $('#segFormato button.on');
   const formato = formatoBtn ? formatoBtn.dataset.f : 'pdf';
   
-  cargando(true, 'Generando exportación...');
+  if(tipoEnvio && !correoDestino){
+    toast('Escribe el correo electrónico de destino');
+    return;
+  }
+  
+  cargando(true, tipoEnvio ? 'Generando y enviando correo...' : 'Generando exportación...');
   try {
     const sesCerrada = JSON.parse(JSON.stringify(activa));
     sesiones.unshift(sesCerrada);
@@ -123,6 +129,7 @@ async function procesarCerrarSesion(tipoEnvio){
     
     const esPdf = formato === 'pdf' || formato === 'ambos';
     const esXls = formato === 'xlsx' || formato === 'ambos';
+    let enviadoExito = false;
     
     if(esPdf){
       const doc = generarPDF(sesCerrada);
@@ -131,6 +138,20 @@ async function procesarCerrarSesion(tipoEnvio){
         const blob = doc.output('blob');
         await compartirArchivo(blob, nombre, 'application/pdf', doc);
         guardarEnNube(blob, nombre, 'application/pdf', 'Listas de Asistencia', sesCerrada.fecha);
+        
+        if(tipoEnvio && correoDestino){
+          const b64 = await archivoABase64(blob);
+          const rMail = await api('enviar_reporte_correo', {
+            correo: correoDestino,
+            titulo: sesCerrada.titulo,
+            fecha: sesCerrada.fecha,
+            nombreArchivo: nombre,
+            tipoMime: 'application/pdf',
+            archivoBase64: b64
+          });
+          if(rMail.ok) enviadoExito = true;
+          else toast(rMail.error || 'No se pudo enviar el correo');
+        }
       }
     }
     
@@ -141,6 +162,20 @@ async function procesarCerrarSesion(tipoEnvio){
         const blob = new Blob([XLSX.write(wb, { bookType:'xlsx', type:'array' })], { type: TIPO_XLSX });
         await compartirArchivo(blob, nombre, blob.type, null, wb);
         guardarEnNube(blob, nombre, blob.type, 'Listas de Asistencia', sesCerrada.fecha);
+        
+        if(tipoEnvio && correoDestino && !esPdf){
+          const b64 = await archivoABase64(blob);
+          const rMail = await api('enviar_reporte_correo', {
+            correo: correoDestino,
+            titulo: sesCerrada.titulo,
+            fecha: sesCerrada.fecha,
+            nombreArchivo: nombre,
+            tipoMime: blob.type,
+            archivoBase64: b64
+          });
+          if(rMail.ok) enviadoExito = true;
+          else toast(rMail.error || 'No se pudo enviar el correo');
+        }
       }
     }
     
@@ -150,10 +185,10 @@ async function procesarCerrarSesion(tipoEnvio){
     
     closeSheet();
     renderAll();
-    toast('Lista de asistencia cerrada y exportada con éxito');
+    toast(enviadoExito ? ('Reporte enviado exitosamente a ' + correoDestino) : 'Lista de asistencia cerrada y descargada');
   } catch(e) {
     console.error('Error al cerrar sesión de asistencia:', e);
-    toast('Ocurrió un error al exportar la lista.');
+    toast('Ocurrió un error al procesar la lista.');
   } finally {
     cargando(false);
   }

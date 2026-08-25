@@ -581,6 +581,36 @@ var ACCIONES = {
     return { ok:true, mensaje:'Contraseña actualizada exitosamente.' };
   },
 
+  enviar_reporte_correo: function(p){
+    var correo = String(p.correo || '').trim();
+    if(!correo) return { ok: false, error: 'Proporciona un correo electrónico de destino.' };
+    
+    var asunto = 'Reporte de Asistencia QG — ' + (p.titulo || p.fecha || 'Asistencia');
+    var cuerpo = 'Hola,\n\nAdjunto encontrarás el reporte de asistencia correspondiente a: ' + 
+                 (p.titulo ? p.titulo + ' (' + (p.fecha || '') + ')' : (p.fecha || 'Sesión de Asistencia')) + '.\n\n' +
+                 'Generado por: ' + (p.usuario || 'Sistema QG') + '\n\n' +
+                 'Atentamente,\nEquipo Queremos Graduarnos';
+                 
+    var adjuntos = [];
+    if(p.archivoBase64 && p.nombreArchivo){
+      var bytes = Utilities.base64Decode(p.archivoBase64);
+      var blob = Utilities.newBlob(bytes, p.tipoMime || 'application/pdf', p.nombreArchivo);
+      adjuntos.push(blob);
+    }
+    
+    try {
+      MailApp.sendEmail({
+        to: correo,
+        subject: asunto,
+        body: cuerpo,
+        attachments: adjuntos
+      });
+      return { ok: true, mensaje: 'Reporte enviado con éxito a ' + correo };
+    } catch(e) {
+      return { ok: false, error: 'No se pudo enviar el correo: ' + String(e.message || e) };
+    }
+  },
+
   sync: function(p){
     var ses = sesionAbierta();
     asegurarColumnaJxJ(); asegurarColumnaLaboral();
