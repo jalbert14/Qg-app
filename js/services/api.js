@@ -1,7 +1,7 @@
 /* =========================================================
    INTEGRACIÓN Y SINCRONIZACIÓN CON GOOGLE APPS SCRIPT
    ========================================================= */
-const URL_PREDETERMINADA = 'https://script.google.com/macros/s/AKfycbxf35QTgryZ6X4c-Q7WSe6jARqjeMMZFEsEizy1J6tLiGT17qJ7UJITMjLwIsh3apJw/exec';
+const URL_PREDETERMINADA = 'https://script.google.com/macros/s/AKfycbyDfk83SpHyQZgpzDbn_nTCox_chMzQplEDF3k-j6Y_W87OQfkv-DkpVX9Ln1U3Plz_/exec';
 
 function rolActual(){ return conn.activa ? (conn.rol || 'consulta') : 'admin'; }
 
