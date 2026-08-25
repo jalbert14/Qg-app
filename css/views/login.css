@@ -54,6 +54,12 @@
 body.bloqueada .login {
   display: flex;
 }
+#shRecuperar {
+  z-index: 95;
+}
+#scrimRecuperar {
+  z-index: 94;
+}
 body.bloqueada .topbar,
 body.bloqueada .strip,
 body.bloqueada main,

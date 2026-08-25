@@ -7,7 +7,7 @@ const CAB = {
   Personas:    ['id', 'nombre', 'ci', 'colegio', 'origen', 'alta', 'actualizado', 'jxj', 'laboral'],
   Sesiones:   ['sesion_id', 'fecha', 'titulo', 'estado', 'cerrada_en'],
   Asistencia: ['sesion_id', 'fecha', 'persona_id', 'nombre', 'ci', 'colegio', 'hora', 'estado', 'marcado_por', 'marcado_en', 'lista'],
-  Usuarios:   ['clave', 'nombre', 'rol', 'activo', 'desactivada', 'usuario'],
+  Usuarios:   ['clave', 'nombre', 'rol', 'activo', 'desactivada', 'usuario', 'correo'],
   Pendientes:   ['pendiente_id', 'fecha', 'nombre', 'ci', 'colegio', 'colegio_procedencia', 'carrera', 'semestre', 'correo', 'coincide_id', 'coincide_nombre', 'estado'],
   AsistenciaLS: ['registro_id', 'fecha', 'persona_id', 'nombre', 'ci', 'horas', 'marcado_por', 'marcado_en'],
   Prospectos:   ['id', 'nombre', 'ci', 'año', 'colegio', 'correo', 'telefono', 'origen', 'alta', 'actualizado'],
@@ -477,9 +477,13 @@ function doGet(){
 function doPost(e){
   var lock = LockService.getScriptLock();
   try{
-    lock.waitLock(25000);
     var p = JSON.parse(e.postData.contents);
     try{ asegurarUsuariosLogin(); }catch(x){}   // por si la columna "usuario" todavía no existe
+    if(p.accion === 'recuperar_solicitar' || p.accion === 'recuperar_validar_2fa' || p.accion === 'recuperar_cambiar_clave'){
+      var rRec = ACCIONES[p.accion](p);
+      rRec.ok = rRec.ok !== false;
+      return json(rRec);
+    }
     var u = autenticar(p.usuario, p.clave);
     if(!u) return json({ ok:false, error:'Usuario o clave incorrectos, o la cuenta está desactivada.' });
     if(PropertiesService.getScriptProperties().getProperty('limpieza') !== hoy()){
@@ -501,6 +505,68 @@ function doPost(e){
 var ACCIONES = {
 
   login: function(){ return {}; },
+
+  recuperar_solicitar: function(p){
+    var term = String(p.usuario || '').trim().toLowerCase();
+    if(!term) return { ok:false, error:'Escribe tu usuario o correo electrónico.' };
+    var u = filasHoja('Usuarios').filter(function(x){
+      return (String(x.usuario || '').toLowerCase() === term ||
+              String(x.correo || '').toLowerCase() === term ||
+              String(x.nombre || '').toLowerCase() === term) &&
+             String(x.activo).toUpperCase().indexOf('S') === 0;
+    })[0];
+    if(!u) return { ok:false, error:'No se encontró una cuenta activa asignada a ese usuario o correo.' };
+    var destino = u.correo || Session.getActiveUser().getEmail() || Session.getEffectiveUser().getEmail();
+    if(!destino) return { ok:false, error:'La cuenta no tiene un correo electrónico configurado para recibir el 2FA.' };
+    var code = String(Math.floor(100000 + Math.random() * 900000));
+    var props = PropertiesService.getScriptProperties();
+    props.setProperty('2fa_' + String(u.usuario).toLowerCase(), JSON.stringify({ code: code, expira: Date.now() + 600000 }));
+    
+    var asunto = 'Código de verificación 2FA — Queremos Graduarnos';
+    var cuerpo = 'Hola ' + u.nombre + ',\n\n' +
+      'Tu código de verificación de 2 factores (2FA) para restablecer la contraseña es:\n\n' +
+      '  ' + code + '\n\n' +
+      'Este código es válido por 10 minutos. Si no solicitaste este cambio, ignora este correo.\n\n' +
+      'Atentamente,\n' +
+      'Equipo de Queremos Graduarnos';
+    try {
+      MailApp.sendEmail(destino, asunto, cuerpo);
+    } catch(e) {
+      return { ok:false, error:'No se pudo enviar el correo con el 2FA: ' + String(e.message||e) };
+    }
+    var visible = destino.replace(/^(.{2})(.*)(@.*)$/, function(m, p1, p2, p3){ return p1 + '***' + p3; });
+    return { ok:true, usuario: u.usuario, mensaje: 'Código enviado a ' + visible };
+  },
+
+  recuperar_validar_2fa: function(p){
+    var uName = String(p.usuario || '').trim().toLowerCase();
+    var code = String(p.codigo || '').trim();
+    if(!uName || !code) return { ok:false, error:'Falta el usuario o código 2FA.' };
+    var props = PropertiesService.getScriptProperties();
+    var raw = props.getProperty('2fa_' + uName);
+    if(!raw) return { ok:false, error:'No hay una solicitud de 2FA activa. Solicita un nuevo código.' };
+    var data = JSON.parse(raw);
+    if(Date.now() > data.expira) return { ok:false, error:'El código 2FA ha expirado (duración 10 min). Solicita uno nuevo.' };
+    if(data.code !== code) return { ok:false, error:'El código 2FA de 6 dígitos es incorrecto.' };
+    return { ok:true, valido:true };
+  },
+
+  recuperar_cambiar_clave: function(p){
+    var uName = String(p.usuario || '').trim().toLowerCase();
+    var code = String(p.codigo || '').trim();
+    var nuevaClave = String(p.nuevaClave || '').trim().toUpperCase();
+    if(!uName || !code || !nuevaClave) return { ok:false, error:'Completa todos los campos.' };
+    var val = ACCIONES.recuperar_validar_2fa(p);
+    if(!val.ok) return val;
+    var h = hoja('Usuarios');
+    var cab = cabHoja('Usuarios');
+    var colClave = indiceColumna('Usuarios', cab, 'clave');
+    var u = filasHoja('Usuarios').filter(function(x){ return String(x.usuario || '').toLowerCase() === uName; })[0];
+    if(!u) return { ok:false, error:'Usuario no encontrado.' };
+    h.getRange(u._fila, colClave + 1).setValue(nuevaClave);
+    PropertiesService.getScriptProperties().deleteProperty('2fa_' + uName);
+    return { ok:true, mensaje:'Contraseña actualizada exitosamente.' };
+  },
 
   sync: function(p){
     var ses = sesionAbierta();

@@ -54,6 +54,15 @@ $('#btnSalir')?.addEventListener('click', async () => {
   await guardarConn(); closeSheet(); mostrarLogin();
 });
 
+/* 2FA Recovery listeners */
+$('#btnRecuperarLink')?.addEventListener('click', abrirRecuperar);
+$('#btnCerrarRecuperar')?.addEventListener('click', closeSheet);
+$('#scrimRecuperar')?.addEventListener('click', closeSheet);
+$('#btnEnviar2FA')?.addEventListener('click', solicitar2FA);
+$('#btnVerificar2FA')?.addEventListener('click', verificar2FA);
+$('#btnReenviar2FA')?.addEventListener('click', solicitar2FA);
+$('#btnGuardarNuevaClave')?.addEventListener('click', guardarNuevaClave);
+
 /* Navigation listeners */
 $$('.tabbar button').forEach(b => b.addEventListener('click', () => irA(b.dataset.v)));
 $$('#segHist button').forEach(b => b.addEventListener('click', () => {

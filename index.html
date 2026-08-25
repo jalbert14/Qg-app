@@ -382,8 +382,46 @@
     <div class="lg-msg" id="lgMsg"></div>
     <button class="btn" id="btnEntrar">Entrar</button>
     <button class="btn ghost" id="btnLocal">Usar sin conexión en este dispositivo</button>
+    <button class="btn ghost" id="btnRecuperarLink" style="margin-top:6px;border:none;font-size:13.5px;color:var(--slate);padding:8px">¿Olvidaste tu clave de acceso?</button>
   </div>
   <div class="lg-pie" id="lgPie">Cada persona entra con su propio usuario y clave. Si no los tienes, pídeselos al administrador.</div>
+</div>
+
+<!-- Modal de Recuperación 2FA -->
+<div class="scrim" id="scrimRecuperar"></div>
+<div class="sheet" id="shRecuperar">
+  <div class="wrap">
+    <div class="grab"></div>
+    <h2 id="recTitulo">Recuperar acceso (2FA)</h2>
+    <div class="sub" id="recSub">Te enviaremos un código de verificación a tu correo electrónico registrado.</div>
+    <div class="warn hidden" id="recMsg"></div>
+
+    <!-- Paso 1: Usuario/Correo -->
+    <div id="recPaso1">
+      <label class="lbl" style="margin-top:0">Usuario o Correo Registrado</label>
+      <input class="inp" id="recUsuario" placeholder="Ej. admin o tu@correo.com" autocapitalize="none">
+      <button class="btn" id="btnEnviar2FA">Enviar código de verificación</button>
+    </div>
+
+    <!-- Paso 2: Código 2FA -->
+    <div id="recPaso2" class="hidden">
+      <label class="lbl" style="margin-top:0">Código 2FA de 6 dígitos</label>
+      <input class="inp mono" id="recCodigo" placeholder="123456" maxlength="6" style="letter-spacing:0.3em;text-align:center;font-size:20px;font-weight:bold;">
+      <button class="btn" id="btnVerificar2FA">Verificar código</button>
+      <button class="btn ghost small" id="btnReenviar2FA" style="margin-top:6px">Reenviar código</button>
+    </div>
+
+    <!-- Paso 3: Nueva Clave -->
+    <div id="recPaso3" class="hidden">
+      <label class="lbl" style="margin-top:0">Nueva Clave de Acceso</label>
+      <input class="inp" id="recNuevaClave" placeholder="Escribe tu nueva clave" autocapitalize="characters">
+      <label class="lbl">Confirmar Clave</label>
+      <input class="inp" id="recConfClave" placeholder="Repite la nueva clave" autocapitalize="characters">
+      <button class="btn jade" id="btnGuardarNuevaClave">Guardar contraseña</button>
+    </div>
+
+    <button class="btn ghost" id="btnCerrarRecuperar" style="margin-top:12px">Cancelar</button>
+  </div>
 </div>
 
 <header class="topbar">
