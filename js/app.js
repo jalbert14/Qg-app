@@ -79,7 +79,14 @@ $('#q')?.addEventListener('input', e => {
   renderResults(e.target.value);
 });
 $('#qClear')?.addEventListener('click', () => { $('#q').value=''; $('#qClear')?.classList.add('hidden'); renderResults(''); $('#q')?.focus(); });
-$('#btnCerrar')?.addEventListener('click', cerrarSesionAsistencia);
+$('#btnCerrar')?.addEventListener('click', abrirCerrarSesion);
+$('#btnPdfOnly')?.addEventListener('click', () => procesarCerrarSesion(false));
+$('#btnPdfMail')?.addEventListener('click', () => procesarCerrarSesion(true));
+$('#btnCerrarCancel')?.addEventListener('click', closeSheet);
+$$('#segFormato button').forEach(b => b.addEventListener('click', () => {
+  $$('#segFormato button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+}));
 
 /* Modal Carnet */
 $('#btnCancelar')?.addEventListener('click', closeSheet);

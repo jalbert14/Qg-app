@@ -99,36 +99,61 @@ function renderPresentes(){
   }));
 }
 
-async function cerrarSesionAsistencia(){
+function abrirCerrarSesion(){
   if(!activa || !activa.presentes || !activa.presentes.length){
     toast('La lista está vacía');
     return;
   }
+  if($('#cerrarSub')) $('#cerrarSub').textContent = `¿Seguro que deseas cerrar la lista del ${fechaLarga(activa.fecha)}? Contiene ${activa.presentes.length} ${activa.presentes.length === 1 ? 'persona presente' : 'personas presentes'}.`;
+  if($('#inTitulo')) $('#inTitulo').value = activa.titulo || '';
+  sheet('#shCerrar');
+}
+
+async function procesarCerrarSesion(tipoEnvio){
+  const titulo = $('#inTitulo')?.value.trim() || '';
+  activa.titulo = titulo;
+  const formatoBtn = $('#segFormato button.on');
+  const formato = formatoBtn ? formatoBtn.dataset.f : 'pdf';
   
-  cargando(true, 'Generando PDF...');
+  cargando(true, 'Generando exportación...');
   try {
     const sesCerrada = JSON.parse(JSON.stringify(activa));
     sesiones.unshift(sesCerrada);
     await Store.set('asis_sesiones', sesiones);
     
-    const doc = generarPDF(sesCerrada);
-    const nombre = (sesCerrada.titulo ? norm(sesCerrada.titulo).replace(/ /g,'_') + '_' : '') + 'Asistencia_' + sesCerrada.fecha + '.pdf';
+    const esPdf = formato === 'pdf' || formato === 'ambos';
+    const esXls = formato === 'xlsx' || formato === 'ambos';
     
-    if(doc){
-      const blob = doc.output('blob');
-      await compartirArchivo(blob, nombre, 'application/pdf', doc);
-      guardarEnNube(blob, nombre, 'application/pdf', 'Listas de Asistencia', sesCerrada.fecha);
+    if(esPdf){
+      const doc = generarPDF(sesCerrada);
+      const nombre = nombreArchivo(sesCerrada, 'pdf');
+      if(doc){
+        const blob = doc.output('blob');
+        await compartirArchivo(blob, nombre, 'application/pdf', doc);
+        guardarEnNube(blob, nombre, 'application/pdf', 'Listas de Asistencia', sesCerrada.fecha);
+      }
+    }
+    
+    if(esXls){
+      const wb = libroAsistencia(sesCerrada);
+      const nombre = nombreArchivo(sesCerrada, 'xlsx');
+      if(wb){
+        const blob = new Blob([XLSX.write(wb, { bookType:'xlsx', type:'array' })], { type: TIPO_XLSX });
+        await compartirArchivo(blob, nombre, blob.type, null, wb);
+        guardarEnNube(blob, nombre, blob.type, 'Listas de Asistencia', sesCerrada.fecha);
+      }
     }
     
     activa = { id: uid(), titulo:'', fecha: hoyISO(), presentes: [] };
     revisionLocal++;
     await Store.set('asis_activa', activa);
     
+    closeSheet();
     renderAll();
-    toast('Sesión cerrada y PDF generado');
+    toast('Lista de asistencia cerrada y exportada con éxito');
   } catch(e) {
     console.error('Error al cerrar sesión de asistencia:', e);
-    toast('Ocurrió un error al generar el PDF.');
+    toast('Ocurrió un error al exportar la lista.');
   } finally {
     cargando(false);
   }

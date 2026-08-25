@@ -164,8 +164,9 @@ function nombreArchivo(ses, ext){
 
 async function compartirArchivo(blob, nombre, tipo, doc, wb){
   try{
+    const esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const file = new File([blob], nombre, { type: tipo });
-    if(navigator.canShare && navigator.canShare({ files:[file] })){
+    if(esMovil && navigator.canShare && navigator.canShare({ files:[file] })){
       await navigator.share({ files:[file], title: nombre });
       return true;
     }
